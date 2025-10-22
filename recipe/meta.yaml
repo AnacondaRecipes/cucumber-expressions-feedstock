@@ -8,7 +8,7 @@ package:
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name | replace('-', '_') }}-{{ version }}.tar.gz
     sha256: 7a484b6dfa293f0b2114dcd28b8b1c56895e3174e5519e3ae7fccb42c2ce625e
-  - url: https://github.com/cucumber/cucumber-expressions/archive/refs/tags/v{{ version }}.tar.gz
+  - url: https://github.com/cucumber/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
     sha256: 2a0e62cf0dc7e40679bb1e04c3fdfdeabe3e34ceb2474020fc618bbc91b1968d
     folder: gh_src
 
