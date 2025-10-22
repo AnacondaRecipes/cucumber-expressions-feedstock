@@ -1,4 +1,3 @@
-{% set python_min = '3.10' %}
 {% set name = "cucumber-expressions" %}
 {% set version = "18.0.0" %}
 
@@ -7,36 +6,63 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/cucumber_expressions-{{ version }}.tar.gz
-  sha256: 7a484b6dfa293f0b2114dcd28b8b1c56895e3174e5519e3ae7fccb42c2ce625e
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name | replace('-', '_') }}-{{ version }}.tar.gz
+    sha256: 7a484b6dfa293f0b2114dcd28b8b1c56895e3174e5519e3ae7fccb42c2ce625e
+  - url: https://github.com/cucumber/cucumber-expressions/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: 2a0e62cf0dc7e40679bb1e04c3fdfdeabe3e34ceb2474020fc618bbc91b1968d
+    folder: gh_src
 
 build:
-  noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 1
+  number: 0
 
 requirements:
   host:
-    - python {{ python_min }}
+    - python
     - poetry-core >=1.0.0
     - pip
   run:
-    - python >={{ python_min }},<4.0
+    - python
 
 test:
+  source_files:
+    - gh_src/python/tests
+    - gh_src/testdata
   imports:
     - cucumber_expressions
+    - cucumber_expressions.argument
+    - cucumber_expressions.ast
+    - cucumber_expressions.combinatorial_generated_expression_factory
+    - cucumber_expressions.errors
+    - cucumber_expressions.expression
+    - cucumber_expressions.expression_generator
+    - cucumber_expressions.expression_parser
+    - cucumber_expressions.expression_tokenizer
+    - cucumber_expressions.generated_expression
+    - cucumber_expressions.group
+    - cucumber_expressions.group_builder
+    - cucumber_expressions.parameter_type
+    - cucumber_expressions.parameter_type_matcher
+    - cucumber_expressions.parameter_type_registry
+    - cucumber_expressions.regular_expression
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v gh_src/python/tests
   requires:
     - pip
-    - python {{ python_min }}
+    - pytest
+    - pyyaml
 
 about:
-  home: https://github.com/cucumber/cucumber-expressions
-  summary: Cucumber Expressions - a simpler alternative to Regular Expressions
+  home: https://cucumber.io
+  summary: Cucumber Expressions is an alternative to Regular Expressions with a more intuitive syntax.
+  description: Cucumber Expressions is an alternative to Regular Expressions with a more intuitive syntax.
   license: MIT
   license_file: LICENSE
+  license_family: MIT
+  doc_url: https://cucumber.io/docs/cucumber/cucumber-expressions
+  dev_url: https://github.com/cucumber/cucumber-expressions
 
 extra:
   recipe-maintainers:
