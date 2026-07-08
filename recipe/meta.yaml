@@ -62,7 +62,7 @@ about:
   license: MIT
   license_file: LICENSE
   license_family: MIT
-  doc_url: https://cucumber.io/docs/cucumber/cucumber-expressions
+  doc_url: https://cucumber.io/docs/cucumber/cucumber-expressions/
   dev_url: https://github.com/cucumber/cucumber-expressions
 
 extra:
