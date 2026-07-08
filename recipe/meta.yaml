@@ -6,8 +6,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name | replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: 5cbd4012c66584aa82ada990a6e7cb131274796e132e905d27d95ae9a2ca0f48
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name | replace('-', '_') }}-{{ version }}.tar.gz
+    sha256: 5cbd4012c66584aa82ada990a6e7cb131274796e132e905d27d95ae9a2ca0f48
+  - url: https://github.com/cucumber/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: 45387aa743e6565302c4a2c0f04fbe5f8414ac28bb1215a3b573e17bdabaf1a8
+    folder: gh_src
 
 build:
   noarch: python
@@ -23,6 +26,9 @@ requirements:
     - python
 
 test:
+  source_files:
+    - gh_src/python/tests
+    - gh_src/testdata
   imports:
     - cucumber_expressions
     - cucumber_expressions.argument
@@ -44,8 +50,11 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v gh_src/python/tests
   requires:
     - pip
+    - pytest
+    - pyyaml
 
 about:
   home: https://cucumber.io
