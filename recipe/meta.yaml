@@ -1,5 +1,5 @@
 {% set name = "cucumber-expressions" %}
-{% set version = "18.0.0" %}
+{% set version = "20.0.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,9 +7,9 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name | replace('-', '_') }}-{{ version }}.tar.gz
-    sha256: 7a484b6dfa293f0b2114dcd28b8b1c56895e3174e5519e3ae7fccb42c2ce625e
+    sha256: 5cbd4012c66584aa82ada990a6e7cb131274796e132e905d27d95ae9a2ca0f48
   - url: https://github.com/cucumber/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 2a0e62cf0dc7e40679bb1e04c3fdfdeabe3e34ceb2474020fc618bbc91b1968d
+    sha256: 45387aa743e6565302c4a2c0f04fbe5f8414ac28bb1215a3b573e17bdabaf1a8
     folder: gh_src
 
 build:
@@ -19,7 +19,7 @@ build:
 requirements:
   host:
     - python
-    - poetry-core >=1.0.0
+    - uv-build >=0.9.0,<0.10.0
     - pip
   run:
     - python
@@ -45,6 +45,7 @@ test:
     - cucumber_expressions.parameter_type_matcher
     - cucumber_expressions.parameter_type_registry
     - cucumber_expressions.regular_expression
+    - cucumber_expressions.tree_regexp
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
@@ -61,7 +62,7 @@ about:
   license: MIT
   license_file: LICENSE
   license_family: MIT
-  doc_url: https://cucumber.io/docs/cucumber/cucumber-expressions
+  doc_url: https://cucumber.io/docs/cucumber/cucumber-expressions/
   dev_url: https://github.com/cucumber/cucumber-expressions
 
 extra:
