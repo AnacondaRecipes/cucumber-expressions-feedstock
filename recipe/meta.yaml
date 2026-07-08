@@ -6,28 +6,23 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name | replace('-', '_') }}-{{ version }}.tar.gz
-    sha256: 5cbd4012c66584aa82ada990a6e7cb131274796e132e905d27d95ae9a2ca0f48
-  - url: https://github.com/cucumber/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 45387aa743e6565302c4a2c0f04fbe5f8414ac28bb1215a3b573e17bdabaf1a8
-    folder: gh_src
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name | replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: 5cbd4012c66584aa82ada990a6e7cb131274796e132e905d27d95ae9a2ca0f48
 
 build:
+  noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
 
 requirements:
   host:
     - python
-    - poetry-core >=1.0.0
+    - uv-build >=0.9.0,<0.10.0
     - pip
   run:
     - python
 
 test:
-  source_files:
-    - gh_src/python/tests
-    - gh_src/testdata
   imports:
     - cucumber_expressions
     - cucumber_expressions.argument
@@ -45,14 +40,12 @@ test:
     - cucumber_expressions.parameter_type_matcher
     - cucumber_expressions.parameter_type_registry
     - cucumber_expressions.regular_expression
+    - cucumber_expressions.tree_regexp
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v gh_src/python/tests
   requires:
     - pip
-    - pytest
-    - pyyaml
 
 about:
   home: https://cucumber.io
